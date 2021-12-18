@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
+
 var session = require('express-session');
+var bodyParser = require('body-parser');
 const app = express();
 const server = require('http').Server(app);
 //Setup static page handling
@@ -11,6 +13,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use('/static', express.static('public'));
 app.get('/', (req, res) => {
     res.render('template');
@@ -18,6 +22,8 @@ app.get('/', (req, res) => {
 app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
+    request.session.username = username;
+    response.redirect('/');
     console.log("Username is: " + username + " and password is: " + password);
 });
 
