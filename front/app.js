@@ -1,10 +1,16 @@
+'use strict';
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-
+//Setup static page handling
+app.set('view engine', 'ejs');
+app.use('/static', express.static('public'));
+app.get('/', (req, res) => {
+    res.render('template');
+});
 
 app.get('/', (req, res) => {
-    res.send('Hello, this is my home Page')
+    res.send('Hello World!')
 })
 
 function startServer() {
