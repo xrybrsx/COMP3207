@@ -1,0 +1,18 @@
+{
+  "name": "Prototype",
+  "version": "1.0.0",
+  "main": "app.js",
+  "engines": {
+    "node": "16.x"
+  },
+  "scripts": {
+    "start": "node app.js",
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "socket.io": "^4.3.1"
+  }
+}
