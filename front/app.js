@@ -9,10 +9,6 @@ app.get('/', (req, res) => {
     res.render('template');
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
 function startServer() {
     const PORT = process.env.PORT || 8080;
     server.listen(PORT, () => {
