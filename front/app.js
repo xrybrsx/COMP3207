@@ -1,24 +1,31 @@
 'use strict';
-const express = require('express');
 
-var session = require('express-session');
-var bodyParser = require('body-parser');
+//set up expres
+const express = require('express');
 const app = express();
-const server = require('http').Server(app);
-//Setup static page handling
-app.set('view engine', 'ejs');
-//set up session 
+
+//set up express-session for cookies 
+var session = require('express-session');
 app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true
 }));
+
+//add body-parser for client-server data transfer 
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//set up server
+const server = require('http').Server(app);
+//Setup static page handling
+app.set('view engine', 'ejs');
 app.use('/static', express.static('public'));
 app.get('/', (req, res) => {
     res.render('template');
 });
+
+//login form - process POST req
 app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
@@ -27,6 +34,7 @@ app.post('/auth', function(request, response) {
     console.log("Username is: " + username + " and password is: " + password);
 });
 
+//Start server
 function startServer() {
     const PORT = process.env.PORT || 8080;
     server.listen(PORT, () => {
