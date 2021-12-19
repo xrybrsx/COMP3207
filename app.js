@@ -4,6 +4,11 @@
 const express = require('express');
 const app = express();
 
+//set up layouts - reusable 
+const expressLayouts = require('express-ejs-layouts')
+app.use(expressLayouts);
+app.set('layout', './layouts/wrapper');
+
 //set up express-session for cookies 
 var session = require('express-session');
 app.use(session({
@@ -22,7 +27,7 @@ const server = require('http').Server(app);
 app.set('view engine', 'ejs');
 app.use('/static', express.static('public'));
 app.get('/', (req, res) => {
-    res.render('template');
+    res.render('template', { title: "Welcome" });
 });
 
 //login form - process POST req
