@@ -27,7 +27,10 @@ const server = require('http').Server(app);
 app.set('view engine', 'ejs');
 app.use('/static', express.static('public'));
 app.get('/', (req, res) => {
-    res.render('template', { title: "Welcome" });
+    res.render('template', { title: "Home" });
+});
+app.get('/login', (req, res) => {
+    res.render('login', { title: "Login" });
 });
 
 //login form - process POST req
