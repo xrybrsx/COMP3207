@@ -18,18 +18,35 @@ body {
     height: 100vh;
 }
 
-#chat {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-    max-height: 80vh;
+.topnav {
+    background-color: rgb(111, 111, 111);
+    overflow: hidden;
 }
 
-#chat li {
-    padding: 5px 10px;
+
+/* Style the links inside the navigation bar */
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
 }
 
-#chat li:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.2);
+
+/* Change the color of links on hover */
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+/* Add a color to the active/current link */
+
+.topnav a.active {
+    background-color: #1652916b;
+    color: white;
 }
