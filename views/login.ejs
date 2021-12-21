@@ -1,12 +1,53 @@
-<div class="">
-    <h2 class="title">Login</h2>
-    <form class="" action="auth" method="POST">
-        <p>
-            <input type="text" name="email" placeholder="Email" required>
-        </p>
-        <p>
-            <input type="password" name="password" placeholder="Password" required>
-        </p>
-        <input type="submit" value="Login">
-    </form>
-</div>
+<section class="block">
+    <div class="hero is-success">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title">Login</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8-tablet is-8-desktop is-6-widescreen">
+                <form action="auth" class="box" method="post">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="emailTextInput">Email</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="emailTextInput" name="email"
+                                           placeholder="example@example.com"
+                                           type="email">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="passwordTextInput">Password</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="passwordTextInput" name="password"
+                                           placeholder="********"
+                                           type="password">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-success">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

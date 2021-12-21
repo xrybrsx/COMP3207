@@ -1,8 +1,13 @@
 'use strict';
 
 //testing json
-var users = [{ "email": "test1@test.com", "password": "test1" }];
-var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": ["Java", "C++"] }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": ["Espresso", "Americano"] }];
+var users = [{"email": "test1@test.com", "password": "test1"}];
+var previews = [{"id": 1, "title": "CV 1", "job": "Software Engineer", "strengths": ["Java", "C++"]}, {
+    "id": 2,
+    "title": "CV 2",
+    "job": "Barista",
+    "strengths": ["Espresso", "Americano"]
+}];
 
 //session testing username and password
 const myemail = users[0].email;
@@ -55,9 +60,9 @@ app.use('/static', express.static('public'));
 app.post('/filter', (req, res) => {
     //user input 
     var job = req.body.job;
-    var strenghts = req.body.strenghts;
-    console.log(strenghts.length);
-    if (!job.length && !strenghts.length) {
+    var strengths = req.body.strengths;
+    console.log(strengths.length);
+    if (!job.length && !strengths.length) {
         res.redirect('/');
 
     } else {
@@ -69,9 +74,9 @@ app.post('/filter', (req, res) => {
             if (cv.job == job) {
                 list.push(cv);
             }
-            for (let j = 0; j < cv.strenghts.length; j++) {
+            for (let j = 0; j < cv.strengths.length; j++) {
                 //if any of the sthrenghts matches the search 
-                if (cv.strenghts[j] == strenghts) {
+                if (cv.strengths[j] == strengths) {
                     list.push(cv);
                 }
             }

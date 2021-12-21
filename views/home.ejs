@@ -1,31 +1,81 @@
-<h2 class="title">
-    CV Library </h2>
+<section class="block">
+    <div class="hero is-success">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title">CV Library </h2>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div class="">
-    <form class="" action="filter" method="POST">
-        <input type="text" name="job" placeholder="Job title">
-        <input type="text" name="strenghts" placeholder="Your strenghts">
-        <input type="submit" value="Search">
-    </form>
-</div>
-
-<ul>
-    <% for (el of list) { %>
-        <li>
-
-            <a href="/posts/<%=el.id%>">
-
-                <div class=" ">
-                    <h1>
-                        <%= el.title %>
-                    </h1>
-                    <p>
-                        <%= el.job %>
-                    </p>
-                    <%- el.strenghts %>
+<section class="block">
+    <div class="container">
+        <form class="form" action="filter" method="POST">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label" for="jobTextInput">Job Title</label>
                 </div>
-            </a>
-        </li>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" id="jobTextInput" name="job" placeholder="Software Engineer"
+                                   type="text">
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-        <% } %>
-</ul>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label" for="strengthsTextInput">Strengths</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" id="strengthsTextInput" name="strengths"
+                                   placeholder="Java,C++,Python,..." type="text">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        Search
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <table class="table is-striped is-hoverable">
+            <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (cv of list) { %>
+                <!-- Stupid way of doing a clickable table row lol -->
+                <tr onclick="window.location='/posts/<%= cv.id %>';" style="cursor: pointer;">
+                    <td>
+                        <%= cv.title %>
+                    </td>
+                    <td>
+                        <%= cv.job %>
+                    </td>
+                    <td>
+                        <%= cv.strengths %>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</section>
