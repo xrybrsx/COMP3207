@@ -1,11 +1,19 @@
 <h2 class="title">
     CV Library </h2>
 
+<div class="">
+    <form class="" action="filter" method="POST">
+        <input type="text" name="job" placeholder="Job title" required>
+        <input type="text" name="strenghts" placeholder="Your strenghts">
+        <input type="submit" value="Search">
+    </form>
+</div>
+
 <ul>
     <% for (el of list) { %>
         <li>
-            <!-- LINK NOT WOKING -->
-            <a href="/post/<%=el.id%>">
+
+            <a href="/posts/<%=el.id%>">
 
                 <div class=" ">
                     <h1>

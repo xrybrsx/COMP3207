@@ -24,6 +24,7 @@ app.use(session({
 //add body-parser for client-server data transfer 
 const bodyParser = require('body-parser');
 const { json } = require('body-parser');
+const { connect } = require('http2');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
@@ -32,10 +33,29 @@ const server = require('http').Server(app);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static('public'));
+
+
+app.post('/filter', (req, res) => {
+    var job = req.body.job;
+    var strenghts = req.body.strenghts;
+    console.log(job, strenghts);
+    var list = [];
+    console.log(previews);
+    for (let i = 0; i < previews.length; i++) {
+        if (previews[i].job == job || previews[i].strenghts == strenghts) {
+            list.push(previews[i]);
+
+        }
+    }
+    res.render('home', { title: "Home", list: list });
+});
+
+//full list of CVs
 app.get('/', (req, res) => {
     var list = previews;
     res.render('home', { title: "Home", list: list });
 });
+
 app.get('/login', (req, res) => {
     res.render('login', { title: "Login" });
 });
