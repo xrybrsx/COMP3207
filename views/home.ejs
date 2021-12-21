@@ -1,2 +1,23 @@
 <h2 class="title">
     CV Library </h2>
+
+<ul>
+    <% for (el of list) { %>
+        <li>
+            <!-- LINK NOT WOKING -->
+            <a href="/post/<%=el.id%>">
+
+                <div class=" ">
+                    <h1>
+                        <%= el.title %>
+                    </h1>
+                    <p>
+                        <%= el.job %>
+                    </p>
+                    <%- el.strenghts %>
+                </div>
+            </a>
+        </li>
+
+        <% } %>
+</ul>

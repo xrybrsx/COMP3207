@@ -1,8 +1,12 @@
 'use strict';
+var users = [{ "email": "1@test.com", "password": "test1" }];
+var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": "Java, C++" }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": "Espresso, Americano" }];
+
 
 //set up expres
 const express = require('express');
 const app = express();
+const path = require("path");
 
 //set up layouts - reusable 
 const expressLayouts = require('express-ejs-layouts')
@@ -19,15 +23,18 @@ app.use(session({
 
 //add body-parser for client-server data transfer 
 const bodyParser = require('body-parser');
+const { json } = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
 const server = require('http').Server(app);
 //Setup static page handling
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static('public'));
 app.get('/', (req, res) => {
-    res.render('home', { title: "Home" });
+    var list = previews;
+    res.render('home', { title: "Home", list: list });
 });
 app.get('/login', (req, res) => {
     res.render('login', { title: "Login" });

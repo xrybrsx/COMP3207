@@ -50,3 +50,27 @@ body {
     background-color: #9ce8ff6b;
     color: white;
 }
+
+.post {
+    background-color: rgb(111, 111, 111);
+    overflow: hidden;
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+
+/* Style the links inside the navigation bar */
+
+.post a.active {
+    background-color: #b8efff6e;
+    color: white;
+}
+
+.post a:hover {
+    background-color: rgba(160, 204, 237, 0.624);
+    color: black;
+}
