@@ -1,5 +1,7 @@
 <div class="topnav">
     <a href="/"> Home</a>
     <a href="/about">About</a>
-    <a href="/login">Login</a>
+    <% if (typeof userid === 'undefined') { %>
+        <a href="/login">Login</a>
+        <% } %>
 </div>

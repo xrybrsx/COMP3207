@@ -1,7 +1,15 @@
 'use strict';
+
+//testing json
 var users = [{ "email": "1@test.com", "password": "test1" }];
 var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": ["Java", "C++"] }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": ["Espresso", "Americano"] }];
 
+//session testing username and password
+const myemail = 'test'
+const mypassword = 'test'
+var logged = false;
+// a variable to save a session
+var session;
 
 //set up expres
 const express = require('express');
@@ -15,11 +23,16 @@ app.set('layout', './layouts/wrapper');
 
 //set up express-session for cookies 
 var session = require('express-session');
+const cookieParser = require("cookie-parser");
+const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    secret: "secret",
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false
 }));
+// cookie parser middleware
+app.use(cookieParser());
 
 //add body-parser for client-server data transfer 
 const bodyParser = require('body-parser');
@@ -27,6 +40,8 @@ const { json } = require('body-parser');
 const { connect } = require('http2');
 const { route } = require('express/lib/router');
 const { nextTick } = require('process');
+const { redirect } = require('express/lib/response');
+const res = require('express/lib/response');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
@@ -81,6 +96,11 @@ app.get("/posts/:id", (req, res, next) => {
 
 //full list of CVs
 app.get('/', (req, res) => {
+    session = req.session;
+    if (session.userid) {
+        logged = true;
+    }
+
     if (req.body.list) {
         var list = req.body.list;
     } else {
@@ -95,11 +115,25 @@ app.get('/login', (req, res) => {
 
 //login form - process POST req
 app.post('/auth', function(request, response) {
-    var username = request.body.username;
+    var email = request.body.email;
     var password = request.body.password;
-    request.session.username = username;
-    response.redirect('/');
-    console.log("Username is: " + username + " and password is: " + password);
+    if (email == myemail && password == mypassword) {
+        session = request.session;
+        session.userid = email;
+        console.log(request.session);
+        console.log("email is: " + email + " and password is: " + password);
+        app.locals.userid = session.userid;
+        response.redirect('/');
+    } else {
+        response.render('error', { title: "Error", message: "Invalid credentials" });
+    }
+
+
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 
