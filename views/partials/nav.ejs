@@ -3,5 +3,10 @@
     <a href="/about">About</a>
     <% if (typeof userid === 'undefined') { %>
         <a href="/login">Login</a>
-        <% } %>
+        <% }else { %>
+            <a href="/user">Profile</a>
+            <a style="text-align: right" href="/logout">Logout</a>
+            <% } %>
+
+
 </div>

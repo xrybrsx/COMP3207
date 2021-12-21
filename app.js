@@ -1,12 +1,12 @@
 'use strict';
 
 //testing json
-var users = [{ "email": "1@test.com", "password": "test1" }];
+var users = [{ "email": "test1@test.com", "password": "test1" }];
 var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": ["Java", "C++"] }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": ["Espresso", "Americano"] }];
 
 //session testing username and password
-const myemail = 'test'
-const mypassword = 'test'
+const myemail = users[0].email;
+const mypassword = users[0].password;
 var logged = false;
 // a variable to save a session
 var session;
@@ -131,8 +131,19 @@ app.post('/auth', function(request, response) {
 
 });
 
+
+app.get('/user', (req, res) => {
+    //TODO getUser function 
+    var user = users[0];
+    res.render('user', { title: "Profile", user: user });
+});
+
 app.get('/logout', (req, res) => {
+    console.log(req.session);
     req.session.destroy();
+    console.log(req.session);
+    app.locals.userid = undefined;
+
     res.redirect('/');
 });
 
