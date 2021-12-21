@@ -102,6 +102,10 @@ app.post('/auth', function(request, response) {
     console.log("Username is: " + username + " and password is: " + password);
 });
 
+
+app.get('/about', (req, res) => {
+    res.render('about', { title: "About" });
+});
 //Start server
 function startServer() {
     const PORT = process.env.PORT || 8080;
