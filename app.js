@@ -1,6 +1,6 @@
 'use strict';
 var users = [{ "email": "1@test.com", "password": "test1" }];
-var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": "Java, C++" }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": "Espresso, Americano" }];
+var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strenghts": ["Java", "C++"] }, { "id": 2, "title": "CV 2", "job": "Barista", "strenghts": ["Espresso", "Americano"] }];
 
 
 //set up expres
@@ -25,6 +25,8 @@ app.use(session({
 const bodyParser = require('body-parser');
 const { json } = require('body-parser');
 const { connect } = require('http2');
+const { route } = require('express/lib/router');
+const { nextTick } = require('process');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
@@ -34,25 +36,56 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static('public'));
 
-
+//filetring function 
 app.post('/filter', (req, res) => {
+    //user input 
     var job = req.body.job;
     var strenghts = req.body.strenghts;
-    console.log(job, strenghts);
-    var list = [];
-    console.log(previews);
-    for (let i = 0; i < previews.length; i++) {
-        if (previews[i].job == job || previews[i].strenghts == strenghts) {
-            list.push(previews[i]);
+    console.log(strenghts.length);
+    if (!job.length && !strenghts.length) {
+        res.redirect('/');
 
+    } else {
+
+        var list = [];
+        for (let i = 0; i < previews.length; i++) {
+            var cv = previews[i];
+            //if job matches the search 
+            if (cv.job == job) {
+                list.push(cv);
+            }
+            for (let j = 0; j < cv.strenghts.length; j++) {
+                //if any of the sthrenghts matches the search 
+                if (cv.strenghts[j] == strenghts) {
+                    list.push(cv);
+                }
+            }
+        }
+        res.render('home', { title: "Home", list: list });
+    }
+});
+
+app.get("/posts/:id", (req, res, next) => {
+    var cv_id = req.params.id;
+    console.log(cv_id);
+    for (let i = 0; i < previews.length; i++) {
+        if (previews[i].id == cv_id) {
+            var name = previews[i].title;
+            res.render('post', { title: name });
+            next();
         }
     }
-    res.render('home', { title: "Home", list: list });
+    res.render('error', { title: "Error", message: "Error 404: No post found" });
+
 });
 
 //full list of CVs
 app.get('/', (req, res) => {
-    var list = previews;
+    if (req.body.list) {
+        var list = req.body.list;
+    } else {
+        var list = previews;
+    }
     res.render('home', { title: "Home", list: list });
 });
 
