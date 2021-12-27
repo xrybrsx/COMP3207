@@ -1,14 +1,14 @@
 'use strict';
 
 //testing json
-var users = [{"email": "test1@test.com", "password": "test1"}];
-var previews = [{"id": 1, "title": "CV 1", "job": "Software Engineer", "strengths": ["Java", "C++"]}, {
+var users = [{ "email": "test1@test.com", "password": "test1" }];
+var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strengths": ["Java", "C++"] }, {
     "id": 2,
     "title": "CV 2",
     "job": "Barista",
     "strengths": ["Espresso", "Americano"]
 }];
-
+const db = require('./db.js');
 //session testing username and password
 const myemail = users[0].email;
 const mypassword = users[0].password;
@@ -118,20 +118,62 @@ app.get('/login', (req, res) => {
     res.render('login', { title: "Login" });
 });
 
+app.get('/register', (req, res) => {
+    res.render('register', { title: "Register" });
+});
+
 //login form - process POST req
 app.post('/auth', function(request, response) {
     var email = request.body.email;
     var password = request.body.password;
-    if (email == myemail && password == mypassword) {
-        session = request.session;
-        session.userid = email;
-        console.log(request.session);
-        console.log("email is: " + email + " and password is: " + password);
-        app.locals.userid = session.userid;
-        response.redirect('/');
-    } else {
-        response.render('error', { title: "Error", message: "Invalid credentials" });
-    }
+    db.login(email, password).then((res) => {
+        console.log(res);
+        if (res["result"] == true) {
+            session = request.session;
+            session.userid = email;
+            console.log(request.session);
+            console.log("email is: " + email + " and password is: " + password);
+            app.locals.userid = session.userid;
+            response.redirect('/');
+
+        } else if (res["result"] == false) {
+            var msg = res["msg"];
+            console.log(msg);
+            response.render('login', { title: "Login", msg: msg });
+        }
+    });
+});
+app.post('/register', function(request, response) {
+    var email = request.body.email;
+    var password = request.body.password;
+    var name = request.body.name;
+    var gender = request.body.gender;
+    db.register(email, password, name, gender).then((res) => {
+        console.log(res);
+        if (res["result"] == true) {
+            session = request.session;
+            session.userid = email;
+            console.log(request.session);
+            console.log("email is: " + email + " and password is: " + password);
+            app.locals.userid = session.userid;
+            response.redirect('/');
+
+        } else if (res["result"] == false) {
+            var msg = res["msg"];
+            console.log(msg);
+            response.render('register', { title: "Register", msg: msg });
+        }
+    });
+    // if (email == myemail && password == mypassword) {
+    //     session = request.session;
+    //     session.userid = email;
+    //     console.log(request.session);
+    //     console.log("email is: " + email + " and password is: " + password);
+    //     app.locals.userid = session.userid;
+    //     response.redirect('/');
+    // } else {
+    //     response.render('error', { title: "Error", message: "Invalid credentials" });
+    // }
 
 
 });
