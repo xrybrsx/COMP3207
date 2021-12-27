@@ -24,7 +24,7 @@ var api = {
 
     register: function(email, password, firstName, lastName, dateOfBirth, education, address) {
 
-        console.log("Handling registartion of " + username + " password is " + password);
+        console.log(email, password, firstName, lastName, dateOfBirth, address, education);
         return axios.post('https://cvlibrary.azurewebsites.net/api/user/register', {
             email: email,
             password: password,

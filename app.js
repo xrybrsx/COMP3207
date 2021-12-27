@@ -128,11 +128,12 @@ app.post('/auth', function(request, response) {
     var password = request.body.password;
     db.login(email, password).then((res) => {
         console.log(res);
-        if (res.status == 401 || 400) {
+        if (res.status == 401 || res.status == 400) {
             console.log(res.data);
             var msg = res.data;
             response.render('login', { title: "Login", msg: msg });
         } else if (res.status == 200) {
+
             session = request.session;
             session.userid = email;
             console.log(request.session);
@@ -151,13 +152,13 @@ app.post('/auth', function(request, response) {
 app.post('/register', function(request, response) {
     var email = request.body.email;
     var password = request.body.password;
-    var fistName = request.body.fistName;
+    var firstName = request.body.firstName;
     var lastName = request.body.lastName;
     var education = request.body.education;
     var dateOfBirth = request.body.dateOfBirth;
     var address = request.body.address;
     var gender = request.body.gender;
-    db.register(email, password, fistName, lastName, address, education, dateOfBirth).then((res) => {
+    db.register(email, password, firstName, lastName, address, education, dateOfBirth).then((res) => {
         console.log(res);
         if (res.status == 400) {
             console.log(res.data);
