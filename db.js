@@ -6,37 +6,41 @@ const api_login = 'https://cvlibrary.azurewebsites.net/api/user/login';
 const api_register = 'https://cvlibrary.azurewebsites.net/api/user/register'
 
 var api = {
-    login: function(username, password) {
+    login: function(email, password) {
 
-        console.log("Handling login of " + username + " password is " + password);
-        return axios.get('https://cvlibrary.azurewebsites.net/api/user/login', {
-            headers: { 'x-functions-key': KEY },
-            params: {
-                username: username,
-                password: password
-            }
-        }).then((res) =>
-            res.data
-        ).then((out) => {
-
+        console.log("Handling login of " + email + " password is " + password);
+        //return 
+        return axios.post('https://cvlibrary.azurewebsites.net/api/user/login', {
+            email: email,
+            password: password
+        }).then((out) => {
             return out;
-        }).catch(e => {});
+        }).catch(function(error) {
+            if (error.response) {
+                return error.response;
+            }
+        });
     },
-    register: function(username, password) {
 
-        console.log("Handling login of " + username + " password is " + password);
-        return axios.get('https://cvlibrary.azurewebsites.net/api/user/register', {
-            headers: { 'x-functions-key': KEY },
-            params: {
-                username: username,
-                password: password
-            }
-        }).then((res) =>
-            res.data
-        ).then((out) => {
+    register: function(email, password, firstName, lastName, dateOfBirth, education, address) {
 
+        console.log("Handling registartion of " + username + " password is " + password);
+        return axios.post('https://cvlibrary.azurewebsites.net/api/user/register', {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            dateOfBirth: dateOfBirth,
+            education: education,
+            address: address
+        }).then((out) => {
             return out;
-        }).catch(e => {});
+        }).catch(function(error) {
+            if (error.response) {
+                return error.response;
+            }
+        });
+
     }
 }
 module.exports = api
