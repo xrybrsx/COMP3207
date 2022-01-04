@@ -1,0 +1,135 @@
+<section class="block">
+    <div class="hero is-success">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title">Upload a CV</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8-tablet is-10-desktop is-8-widescreen">
+
+                <form action="upload" class="box" method="post">
+                    <div class="field is-horizontal">
+
+                        <% if (locals.msg ) { %>
+                            <div class="notification is-danger is-light">
+                                <div>
+                                    <p>
+                                        <%= msg %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% } %>
+
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="titleTextInput">Title</label>
+                        </div>
+
+
+                        <div class="field-body">
+
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="titleTextInput" name="title" placeholder="CV 1" type="name">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="jobTextInput">Job Position</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="jobTextInput" name="password" placeholder="Software Engineer" type="name">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="technicalSkillsTextInput">Technical Skills</label>
+                        </div>
+
+
+                        <div class="field-body">
+
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="technicalSkillsTextInput" name="technicalSkills" placeholder="Python" type="name">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="softSkillsTextInput">Soft Skills</label>
+                        </div>
+
+
+                        <div class="field-body">
+
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="softSkillsTextInput" name="softSkills" placeholder="Time Management" type="name">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="statusTextInput">Status</label>
+                        </div>
+
+
+                        <div class="field-body">
+
+                            <div class="field">
+                                <p class="control">
+                                    <input class="input" id="statusTextInput" name="status" placeholder="submitted" type="name">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label" for="uploadInput">Upload CV</label>
+                        </div>
+                        <div class="file has-name is-fullwidth">
+                            <label class="file-label">
+                          <input class="file-input" id="uploadInput" type="file" name="cv-pdf">
+                          <span class="file-cta">
+                            <span class="file-icon">
+                              <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                              Choose a file…
+                            </span>
+                          </span>
+                          <span class="file-name">
+                            Screen Shot 2017-07-29 at 15.54.25.png
+                          </span>
+                        </label>
+                        </div>
+
+                        <div class="field">
+                            <button class="button is-success">
+                            Upload
+                        </button>
+
+
+                </form>
+                </div>
+                </div>
+            </div>
+</section>

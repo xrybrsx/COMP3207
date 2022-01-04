@@ -22,9 +22,9 @@ var api = {
         });
     },
 
-    register: function(email, password, firstName, lastName, dateOfBirth, education, address) {
+    register: function(email, password, firstName, lastName, dateOfBirth, gender, education, address) {
 
-        console.log(email, password, firstName, lastName, dateOfBirth, address, education);
+        console.log(email, password, firstName, lastName, dateOfBirth, gender, address, education);
         return axios.post('https://cvlibrary.azurewebsites.net/api/user/register', {
             email: email,
             password: password,
@@ -32,7 +32,8 @@ var api = {
             lastName: lastName,
             dateOfBirth: dateOfBirth,
             education: education,
-            address: address
+            address: address,
+            gender: gender
         }).then((out) => {
             return out;
         }).catch(function(error) {

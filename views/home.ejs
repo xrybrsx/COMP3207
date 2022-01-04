@@ -18,8 +18,7 @@
                 <div class="field-body">
                     <div class="field">
                         <p class="control">
-                            <input class="input" id="jobTextInput" name="job" placeholder="Software Engineer"
-                                   type="text">
+                            <input class="input" id="jobTextInput" name="job" placeholder="Software Engineer" type="text">
                         </p>
                     </div>
                 </div>
@@ -27,13 +26,12 @@
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="strengthsTextInput">Strengths</label>
+                    <label class="label" for="technicalSkillsTextInput">Technical Skills</label>
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <p class="control">
-                            <input class="input" id="strengthsTextInput" name="strengths"
-                                   placeholder="Java,C++,Python,..." type="text">
+                            <input class="input" id="technicalSkillsTextInput" name="technicalSkills" placeholder="Java,C++,Python,..." type="text">
                         </p>
                     </div>
                 </div>
@@ -54,27 +52,32 @@
     <div class="container">
         <table class="table is-striped is-hoverable">
             <thead>
-            <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Job Position</th>
+                    <th>Technical Skills</th>
+                    <th>Status</th>
+                </tr>
             </thead>
             <tbody>
-            <% for (cv of list) { %>
-                <!-- Stupid way of doing a clickable table row lol -->
-                <tr onclick="window.location='/posts/<%= cv.id %>';" style="cursor: pointer;">
-                    <td>
-                        <%= cv.title %>
-                    </td>
-                    <td>
-                        <%= cv.job %>
-                    </td>
-                    <td>
-                        <%= cv.strengths %>
-                    </td>
-                </tr>
-            <% } %>
+                <% for (cv of list) { %>
+                    <!-- Stupid way of doing a clickable table row lol
+                    - I wouldn't have come up with anything different lol -->
+                    <tr onclick="window.location='/posts/<%= cv.id %>';" style="cursor: pointer;">
+                        <td>
+                            <%= cv.id %>
+                        </td>
+                        <td>
+                            <%= cv.job %>
+                        </td>
+                        <td>
+                            <%= cv.technicalSkills %>
+                        </td>
+                        <td>
+                            <%= cv.status %>
+                        </td>
+                    </tr>
+                    <% } %>
             </tbody>
         </table>
     </div>

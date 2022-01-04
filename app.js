@@ -2,11 +2,12 @@
 
 //testing json
 var users = [{ "email": "test1@test.com", "password": "test1" }];
-var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "strengths": ["Java", "C++"] }, {
+var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "technicalSkills": ["Java", "C++"], "status": "interviews" }, {
     "id": 2,
     "title": "CV 2",
     "job": "Barista",
-    "strengths": ["Espresso", "Americano"]
+    "technicalSkills": ["Espresso", "Americano"],
+    "status": "successful"
 }];
 const db = require('./db.js');
 //session testing username and password
@@ -60,9 +61,9 @@ app.use('/static', express.static('public'));
 app.post('/filter', (req, res) => {
     //user input 
     var job = req.body.job;
-    var strengths = req.body.strengths;
-    console.log(strengths.length);
-    if (!job.length && !strengths.length) {
+    var technicalSkills = req.body.technicalSkills;
+    console.log(technicalSkills.length);
+    if (!job.length && !technicalSkills.length) {
         res.redirect('/');
 
     } else {
@@ -74,9 +75,9 @@ app.post('/filter', (req, res) => {
             if (cv.job == job) {
                 list.push(cv);
             }
-            for (let j = 0; j < cv.strengths.length; j++) {
+            for (let j = 0; j < cv.technicalSkills.length; j++) {
                 //if any of the sthrenghts matches the search 
-                if (cv.strengths[j] == strengths) {
+                if (cv.technicalSkills[j] == technicalSkills) {
                     list.push(cv);
                 }
             }
@@ -122,6 +123,10 @@ app.get('/register', (req, res) => {
     res.render('register', { title: "Register" });
 });
 
+app.get('/upload', (req, res) => {
+    res.render('upload', { title: "Upload" });
+});
+
 //login form - process POST req
 app.post('/auth', function(request, response) {
     var email = request.body.email;
@@ -158,7 +163,7 @@ app.post('/register', function(request, response) {
     var dateOfBirth = request.body.dateOfBirth;
     var address = request.body.address;
     var gender = request.body.gender;
-    db.register(email, password, firstName, lastName, address, education, dateOfBirth).then((res) => {
+    db.register(email, password, firstName, lastName, address, education, dateOfBirth, gender).then((res) => {
         console.log(res);
         if (res.status == 400) {
             console.log(res.data);
@@ -174,6 +179,35 @@ app.post('/register', function(request, response) {
         } else {
             var msg = "Unknown Error"
             response.render('register', { title: "Register", msg: msg });
+        }
+
+    });
+});
+app.post('/upload', function(request, response) {
+    var title = request.body.title;
+    var job = request.body.job;
+    var technicalSkills = request.body.technicalSkills;
+    var softSkills = request.body.softSkills;
+    var status = request.body.status;
+    var dateOfBirth = request.body.dateOfBirth;
+    var address = request.body.address;
+    var gender = request.body.gender;
+    db.register(email, password, firstName, lastName, address, education, dateOfBirth, gender).then((res) => {
+        console.log(res);
+        if (res.status == 400) {
+            console.log(res.data);
+            var msg = res.data;
+            response.render('upload', { title: "Upload", msg: msg });
+        } else if (res.status == 200) {
+            session = request.session;
+            session.userid = email;
+            console.log(request.session);
+            console.log("email is: " + email + " and password is: " + password);
+            app.locals.userid = session.userid;
+            response.redirect('/');
+        } else {
+            var msg = "Unknown Error"
+            response.render('upload', { title: "Upload", msg: msg });
         }
 
     });
