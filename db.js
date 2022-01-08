@@ -42,6 +42,39 @@ var api = {
             }
         });
 
+    },
+    filter: function(jobTitle) {
+        console.log(jobTitle);
+        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/search', {
+            jobTitle: jobTitle
+        }).then((out) => {
+            console.log(out);
+            return out;
+        }).catch(function(error) {
+            if (error.response) {
+                console.log(error);
+                return error.response;
+            }
+        });
+
+    },
+    upload: function(userId, jobTitle, jobOffers, cvFile) {
+        console.log(userId, jobTitle, jobOffers, cvFile);
+        return axios.post('http://cvlibrary.azurewebsites.net/api/cv/upload', {
+            userId: userId,
+            jobTitle: jobTitle,
+            jobOffers: jobOffers,
+            cvFile: cvFile
+        }).then((out) => {
+            console.log(out);
+            return out;
+        }).catch(function(error) {
+            if (error.response) {
+                console.log(error);
+                return error.response;
+            }
+        });
+
     }
 }
 module.exports = api

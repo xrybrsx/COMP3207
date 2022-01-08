@@ -2,13 +2,16 @@
 
 //testing json
 var users = [{ "email": "test1@test.com", "password": "test1" }];
-var previews = [{ "id": 1, "title": "CV 1", "job": "Software Engineer", "technicalSkills": ["Java", "C++"], "status": "interviews" }, {
+var previews = [{ "id": 1, "title": "CV 1", "jobTitle": "Software Engineer", "technicalSkills": ["Java", "C++"], "status": "interviews" }, {
     "id": 2,
     "title": "CV 2",
-    "job": "Barista",
+    "jobTitle": "Barista",
     "technicalSkills": ["Espresso", "Americano"],
     "status": "successful"
 }];
+
+const fs = require('fs')
+
 const db = require('./db.js');
 //session testing username and password
 const myemail = users[0].email;
@@ -48,6 +51,7 @@ const { route } = require('express/lib/router');
 const { nextTick } = require('process');
 const { redirect } = require('express/lib/response');
 const res = require('express/lib/response');
+const { all } = require('express/lib/application');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
@@ -58,32 +62,57 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static('public'));
 
 //filetring function 
-app.post('/filter', (req, res) => {
+app.post('/filter', (req, response) => {
     //user input 
-    var job = req.body.job;
-    var technicalSkills = req.body.technicalSkills;
-    console.log(technicalSkills.length);
-    if (!job.length && !technicalSkills.length) {
-        res.redirect('/');
 
+
+    var jobTitle = req.body.jobTitle;
+    console.log(req.body);
+    if (!jobTitle.length && !technicalSkills.length) {
+        response.redirect('/');
     } else {
+        db.filter(jobTitle).then((res) => {
+            console.log(res);
+            if (res.status == 400) {
+                console.log(res.data);
+                var msg = res.data;
+                console.log(res.data);
+                response.redirect('/');
+            } else if (res.status == 200) {
+                var list = res.data;
+                response.render('home', { title: "Home", list: list });
+            } else {
 
-        var list = [];
-        for (let i = 0; i < previews.length; i++) {
-            var cv = previews[i];
-            //if job matches the search 
-            if (cv.job == job) {
-                list.push(cv);
+                response.redirect('/');
             }
-            for (let j = 0; j < cv.technicalSkills.length; j++) {
-                //if any of the sthrenghts matches the search 
-                if (cv.technicalSkills[j] == technicalSkills) {
-                    list.push(cv);
-                }
-            }
-        }
-        res.render('home', { title: "Home", list: list });
+
+        });
     }
+
+    // var jobTitle = req.body.jobTitle;
+    // var technicalSkills = req.body.technicalSkills;
+    // console.log(technicalSkills.length);
+    // if (!jobTitle.length && !technicalSkills.length) {
+    //     res.redirect('/');
+
+    // } else {
+
+    //     var list = [];
+    //     for (let i = 0; i < previews.length; i++) {
+    //         var cv = previews[i];
+    //         //if job matches the search 
+    //         if (cv.job == job) {
+    //             list.push(cv);
+    //         }
+    //         for (let j = 0; j < cv.technicalSkills.length; j++) {
+    //             //if any of the sthrenghts matches the search 
+    //             if (cv.technicalSkills[j] == technicalSkills) {
+    //                 list.push(cv);
+    //             }
+    //         }
+    //     }
+    //     res.render('home', { title: "Home", list: list });
+    // }
 });
 
 app.get("/posts/:id", (req, res, next) => {
@@ -106,6 +135,9 @@ app.get('/', (req, res) => {
     if (session.userid) {
         logged = true;
     }
+    var jobList = data();
+    console.log(jobList);
+    app.locals.jobList = jobList;
 
     if (req.body.list) {
         var list = req.body.list;
@@ -153,6 +185,46 @@ app.post('/auth', function(request, response) {
     });
 });
 
+function data() {
+    console.log("begin");
+    var filename = path.join(__dirname, 'assets/Job_title.csv');
+    var text = fs.readFileSync(filename, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return err
+
+        } else {
+            //console.log(data);
+            return data;
+        }
+    });
+
+
+    var record_num = 1; // or however many elements there are in each row
+    var allTextLines = text.split(/\r\n|\n/);
+
+    //var entries = allTextLines[0].split(',');
+
+
+    var list = allTextLines;
+
+
+    // console.log(headings);
+    for (var i = 0; list.length <= 0; i++) {
+        var tarr = [];
+        for (var j = 0; j < record_num; j++) {
+            tarr.push("title:" + list.shift());
+        }
+        list.push(tarr);
+    }
+
+
+    return list;
+}
+
+
+
+
 
 app.post('/register', function(request, response) {
     var email = request.body.email;
@@ -163,6 +235,8 @@ app.post('/register', function(request, response) {
     var dateOfBirth = request.body.dateOfBirth;
     var address = request.body.address;
     var gender = request.body.gender;
+
+    console.log(request.body);
     db.register(email, password, firstName, lastName, address, education, dateOfBirth, gender).then((res) => {
         console.log(res);
         if (res.status == 400) {
@@ -184,26 +258,20 @@ app.post('/register', function(request, response) {
     });
 });
 app.post('/upload', function(request, response) {
-    var title = request.body.title;
-    var job = request.body.job;
-    var technicalSkills = request.body.technicalSkills;
-    var softSkills = request.body.softSkills;
-    var status = request.body.status;
-    var dateOfBirth = request.body.dateOfBirth;
-    var address = request.body.address;
-    var gender = request.body.gender;
-    db.register(email, password, firstName, lastName, address, education, dateOfBirth, gender).then((res) => {
+
+    var userId = request.body.userId;
+    var jobTitle = request.body.jobTitle;
+    var jobOffers = request.body.jobOffers;
+    var cvFile = request.body.cvFile;
+
+    db.upload(userId, jobTitle, jobOffers, cvFile).then((res) => {
         console.log(res);
         if (res.status == 400) {
             console.log(res.data);
             var msg = res.data;
             response.render('upload', { title: "Upload", msg: msg });
         } else if (res.status == 200) {
-            session = request.session;
-            session.userid = email;
-            console.log(request.session);
-            console.log("email is: " + email + " and password is: " + password);
-            app.locals.userid = session.userid;
+            console.log(res);
             response.redirect('/');
         } else {
             var msg = "Unknown Error"
