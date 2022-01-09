@@ -11,6 +11,13 @@
 
 <section class="block">
     <div class="container">
-        
+
+        <h1>
+            <%= cv.jobTitle %>
+        </h1>
+        <% cv.cvFile %>
+            <div style="display: 'none'">
+                <iframe src="<% cv.cvFile %>" />
+            </div>
     </div>
 </section>

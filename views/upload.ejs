@@ -14,7 +14,7 @@
         <div class="columns is-centered">
             <div class="column is-8-tablet is-10-desktop is-8-widescreen">
 
-                <form action="upload" class="box" method="post">
+                <form action="upload" class="box" method="post" id="myForm" name="myForm">
                     <div class="field is-horizontal">
 
                         <% if (locals.msg ) { %>
@@ -38,7 +38,7 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="number">
+                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="text">
                                 </p>
                             </div>
                         </div>

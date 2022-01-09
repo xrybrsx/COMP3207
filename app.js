@@ -2,15 +2,18 @@
 
 //testing json
 var users = [{ "email": "test1@test.com", "password": "test1" }];
-var previews = [{ "id": 1, "title": "CV 1", "jobTitle": "Software Engineer", "technicalSkills": ["Java", "C++"], "status": "interviews" }, {
-    "id": 2,
+var previews = [{ "cvId": 1, "title": "CV 1", "jobTitle": "Software Engineer", "technicalSkills": ["Java", "C++"], "jobOffers": "interviews" }, {
+    "cvId": 2,
     "title": "CV 2",
     "jobTitle": "Barista",
     "technicalSkills": ["Espresso", "Americano"],
-    "status": "successful"
+    "jobOffers": "successful"
 }];
 
-const fs = require('fs')
+
+
+const fs = require('fs');
+
 
 const db = require('./db.js');
 //session testing username and password
@@ -21,9 +24,23 @@ var logged = false;
 var session;
 
 //set up expres
+const formData = require("express-form-data");
 const express = require('express');
 const app = express();
 const path = require("path");
+const jobList = data();
+app.locals.jobList = jobList;
+
+
+// parse data with connect-multiparty. 
+app.use(formData.parse());
+// delete from the request all empty files (size == 0)
+app.use(formData.format());
+// change the file objects to fs.ReadStream 
+app.use(formData.stream());
+// union the body and the files
+app.use(formData.union());
+
 
 //set up layouts - reusable 
 const expressLayouts = require('express-ejs-layouts')
@@ -52,6 +69,8 @@ const { nextTick } = require('process');
 const { redirect } = require('express/lib/response');
 const res = require('express/lib/response');
 const { all } = require('express/lib/application');
+const { request } = require('express');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //set up server
@@ -115,17 +134,36 @@ app.post('/filter', (req, response) => {
     // }
 });
 
-app.get("/posts/:id", (req, res, next) => {
-    var cv_id = req.params.id;
-    console.log(cv_id);
-    for (let i = 0; i < previews.length; i++) {
-        if (previews[i].id == cv_id) {
-            var name = previews[i].title;
-            res.render('post', { title: name });
-            next();
+app.get("/posts/:id", (req, response, next) => {
+    var cvId = req.params.id;
+    console.log(cvId);
+    db.getCV(cvId).then((res) => {
+        console.log(res);
+        console.log(res.cvFile);
+        res.download;
+
+        if (res.status == 400) {
+            console.log(res.data);
+            var msg = res.data;
+            console.log(res.data);
+            response.render('error', { title: "Error", message: msg });
+        } else if (res.status == 200) {
+            var cv = res.data;
+            response.render('post', { title: "Post", cv: cv });
+        } else {
+            var msg = res.data;
+            response.render('error', { title: "Error", message: msg });
         }
-    }
-    res.render('error', { title: "Error", message: "Error 404: No post found" });
+
+    });
+    // for (let i = 0; i < previews.length; i++) {
+    //     if (previews[i].id == cvId) {
+    //         var name = previews[i].title;
+    //         res.render('post', { title: name });
+    //         next();
+    //     }
+    // }
+    // res.render('error', { title: "Error", message: "Error 404: No post found" });
 
 });
 
@@ -135,9 +173,8 @@ app.get('/', (req, res) => {
     if (session.userid) {
         logged = true;
     }
-    var jobList = data();
-    console.log(jobList);
-    app.locals.jobList = jobList;
+
+
 
     if (req.body.list) {
         var list = req.body.list;
@@ -235,9 +272,17 @@ app.post('/register', function(request, response) {
     var dateOfBirth = request.body.dateOfBirth;
     var address = request.body.address;
     var gender = request.body.gender;
+    // var email = "raya3@mail.com";
+    // var password = "Raya123@";
+    // var firstName = "Raya";
+    // var lastName = "Bakarska";
+    // var education = "ECS";
+    // var dateOfBirth = "2000-02-13";
+    // var address = "UK";
+    // var gender = "Female";
 
     console.log(request.body);
-    db.register(email, password, firstName, lastName, address, education, dateOfBirth, gender).then((res) => {
+    db.register(email, password, firstName, lastName, dateOfBirth, education, address, gender).then((res) => {
         console.log(res);
         if (res.status == 400) {
             console.log(res.data);
@@ -258,13 +303,28 @@ app.post('/register', function(request, response) {
     });
 });
 app.post('/upload', function(request, response) {
+    //const formData = new FormData();
+    // let myForm = request.body;
 
-    var userId = request.body.userId;
-    var jobTitle = request.body.jobTitle;
-    var jobOffers = request.body.jobOffers;
-    var cvFile = request.body.cvFile;
+    // let formData = new FormData(myForm);
+    console.log(request);
+    console.log(request.body);
 
-    db.upload(userId, jobTitle, jobOffers, cvFile).then((res) => {
+    console.log(request.fields);
+    console.log(request.files);
+    // var userId = request.body.userId;
+    // var jobTitle = request.body.jobTitle;
+    // var jobOffers = request.body.jobOffers;
+    // var cvFile = request.body.cvFile;
+
+    // formData.append('userId', userId);
+    // formData.append('jobTitle', jobTitle);
+    // formData.append('jobOffers', jobOffers);
+    // formData.append('cvFile', fs.createReadStream('cvFile'));
+
+
+    console.log(formData);
+    db.upload(formData).then((res) => {
         console.log(res);
         if (res.status == 400) {
             console.log(res.data);

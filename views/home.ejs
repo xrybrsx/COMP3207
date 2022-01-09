@@ -64,26 +64,26 @@
                 <tr>
                     <th>ID</th>
                     <th>Job Position</th>
-                    <th>Technical Skills</th>
-                    <th>Status</th>
+                    <th>Job Offers</th>
+                    <!-- <th>Status</th> -->
                 </tr>
             </thead>
             <tbody>
                 <% for (cv of list) { %>
                     <!-- Stupid way of doing a clickable table row lol
                     - I wouldn't have come up with anything different lol -->
-                    <tr onclick="window.location='/posts/<%= cv.id %>';" style="cursor: pointer;">
+                    <tr onclick="window.location='/posts/<%= cv.cvId %>';" style="cursor: pointer;">
                         <td>
-                            <%= cv.id %>
+                            <%= cv.cvId %>
                         </td>
                         <td>
                             <%= cv.jobTitle %>
                         </td>
-                        <td>
+                        <!-- <td>
                             <%= cv.technicalSkills %>
-                        </td>
+                        </td> -->
                         <td>
-                            <%= cv.status %>
+                            <%= cv.jobOffers %>
                         </td>
                     </tr>
                     <% } %>
