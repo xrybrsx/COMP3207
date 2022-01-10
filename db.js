@@ -1,12 +1,8 @@
 const axios = require('axios');
-const { application, response } = require('express');
-const AxiosLogger = require('axios-logger');
-const FormData = require('form-data');
+const { response } = require('express');
 
 
-const instance = axios.create();
-instance.interceptors.response.use(AxiosLogger.responseLogger);
-instance.interceptors.request.use(AxiosLogger.requestLogger);
+
 
 const KEY = 'K70CRUZ6mFJIdnQqYrkM5dDJ6xO8nFfvxMqo9sycOKZ7/RievbsFyg==';
 const api_login = 'https://cvlibrary.azurewebsites.net/api/user/login';
