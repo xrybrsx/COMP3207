@@ -240,6 +240,7 @@ app.post('/auth', function(request, response) {
             console.log(request.session);
             console.log("email is: " + email + " and password is: " + password);
             app.locals.userid = session.userid;
+            app.locals.email = email;
             response.redirect('/');
         } else {
             var msg = "Unknown Error"
@@ -321,6 +322,7 @@ app.post('/register', function(request, response) {
             console.log(request.session);
             console.log("email is: " + email + " and password is: " + password);
             app.locals.userid = session.userid;
+            app.locals.email = email;
             response.redirect('/');
         } else {
             var msg = "Unknown Error"
@@ -387,6 +389,7 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     console.log(req.session);
     app.locals.userid = undefined;
+    app.locals.email = undefined;
 
     res.redirect('/');
 });

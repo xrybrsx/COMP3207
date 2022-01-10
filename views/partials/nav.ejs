@@ -21,16 +21,12 @@
                 About
             </a>
 
-            <a class="navbar-item" href="/upload">
-                Upload
-            </a>
-            <!-- Uncomment this and delete the Upload above later
-                 <% if (typeof userid !== 'undefined') { %>
+            <% if (typeof userid !== 'undefined') { %>
 
                 <a class="navbar-item" href="/upload">
                         Upload
                     </a>
-                <% } %> -->
+                <% } %>
         </div>
 
         <div class="navbar-end">
@@ -46,7 +42,7 @@
 
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
-                            <%= userid %>
+                            <%= email %>
                         </a>
 
                         <div class="navbar-dropdown">
