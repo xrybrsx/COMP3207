@@ -1,6 +1,7 @@
 const axios = require('axios');
-const { application } = require('express');
+const { application, response } = require('express');
 const AxiosLogger = require('axios-logger');
+const FormData = require('form-data');
 
 
 const instance = axios.create();
@@ -81,23 +82,29 @@ var api = {
         });
 
     },
-    upload: function(formData) {
-        console.log(formData);
-        return axios.post('http://cvlibrary.azurewebsites.net/api/cv/upload',
-            formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((out) => {
-            console.log(out);
-            return out;
-        }).catch(function(error) {
-            if (error.response) {
+    upload: function(data) {
+        var config = {
+            method: 'post',
+            url: 'http://cvlibrary.azurewebsites.net/api/cv/upload',
+            headers: {
+                ...data.getHeaders()
+            },
+            data: data
+        };
+
+        return axios(config)
+            .then(function(response) {
+                console.log(response);
+                return (response);
+
+            })
+            .catch(function(error) {
                 console.log(error);
-                return error.response;
-            }
-        });
+                return response;
+            });
 
     }
 }
+
+
 module.exports = api

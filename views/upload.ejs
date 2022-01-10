@@ -14,7 +14,7 @@
         <div class="columns is-centered">
             <div class="column is-8-tablet is-10-desktop is-8-widescreen">
 
-                <form action="upload" class="box" method="post" id="myForm" name="myForm">
+                <form enctype="multipart/form-data" action="upload" class="box" method="post">
                     <div class="field is-horizontal">
 
                         <% if (locals.msg ) { %>
@@ -27,8 +27,9 @@
                             </div>
                             <% } %>
 
+
                     </div>
-                    <div class="field is-horizontal">
+                    <div class="field is-horizontal" style="display: none;">
                         <div class="field-label is-normal">
                             <label class="label" for="userIdTextInput">User ID</label>
                         </div>
@@ -38,7 +39,7 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="text">
+                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="text" value="<%= locals.userid %>">
                                 </p>
                             </div>
                         </div>
@@ -95,7 +96,7 @@
                         </div>
                         <div class="file has-name is-fullwidth">
                             <label class="file-label">
-                          <input class="file-input" id="uploadInput" type="file" name="cv-pdf">
+                          <input class="file-input" id="uploadInput" type="file" name="cvFile">
                           <span class="file-cta">
                             <span class="file-icon">
                               <i class="fas fa-upload"></i>
@@ -105,7 +106,7 @@
                             </span>
                           </span>
                           <span class="file-name">
-                            Screen Shot 2017-07-29 at 15.54.25.png
+                            CV.pdf
                           </span>
                         </label>
                         </div>

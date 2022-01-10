@@ -2,44 +2,50 @@
 
 //testing json
 var users = [{ "email": "test1@test.com", "password": "test1" }];
-var previews = [{ "cvId": 1, "title": "CV 1", "jobTitle": "Software Engineer", "technicalSkills": ["Java", "C++"], "jobOffers": "interviews" }, {
+var previews = [{ "cvId": 1, "title": "CV 1", "jobTitle": "Software Engineer", "technicalSkills": ["Java", "C++"], "jobOffers": "Google" }, {
     "cvId": 2,
     "title": "CV 2",
     "jobTitle": "Barista",
     "technicalSkills": ["Espresso", "Americano"],
-    "jobOffers": "successful"
+    "jobOffers": "Tesla"
 }];
 
 
 
-const fs = require('fs');
 
 
-const db = require('./db.js');
-//session testing username and password
-const myemail = users[0].email;
-const mypassword = users[0].password;
+
+
 var logged = false;
 // a variable to save a session
 var session;
 
 //set up expres
-const formData = require("express-form-data");
+
 const express = require('express');
 const app = express();
 const path = require("path");
-const jobList = data();
-app.locals.jobList = jobList;
+const db = require('./db.js');
+const FormData = require('form-data');
+const fs = require('fs');
+//const fileUpload = require('express-fileupload');
+const multer = require('multer');
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 
 // parse data with connect-multiparty. 
-app.use(formData.parse());
-// delete from the request all empty files (size == 0)
-app.use(formData.format());
-// change the file objects to fs.ReadStream 
-app.use(formData.stream());
-// union the body and the files
-app.use(formData.union());
+// app.use(FormData.parse());
+// // delete from the request all empty files (size == 0)
+// app.use(FormData.format());
+// // change the file objects to fs.ReadStream 
+// app.use(FormData.stream());
+// // union the body and the files
+// app.use(FormData.union());
 
 
 //set up layouts - reusable 
@@ -60,25 +66,35 @@ app.use(session({
 // cookie parser middleware
 app.use(cookieParser());
 
-//add body-parser for client-server data transfer 
-const bodyParser = require('body-parser');
-const { json } = require('body-parser');
-const { connect } = require('http2');
-const { route } = require('express/lib/router');
-const { nextTick } = require('process');
-const { redirect } = require('express/lib/response');
-const res = require('express/lib/response');
-const { all } = require('express/lib/application');
-const { request } = require('express');
+// //add body-parser for client-server data transfer 
+// const bodyParser = require('body-parser');
+// const { json } = require('body-parser');
+// const { connect } = require('http2');
+// const { route } = require('express/lib/router');
+// const { nextTick } = require('process');
+// const { redirect } = require('express/lib/response');
+// const res = require('express/lib/response');
+// const { all } = require('express/lib/application');
+// const { request } = require('express');
+// const { isStringObject } = require('util/types');
+// const req = require('express/lib/request');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
 //set up server
 const server = require('http').Server(app);
 //Setup static page handling
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/static', express.static('public'));
+
+
+
+
+
+const jobList = data();
+app.locals.jobList = jobList;
+
+
 
 //filetring function 
 app.post('/filter', (req, response) => {
@@ -87,7 +103,7 @@ app.post('/filter', (req, response) => {
 
     var jobTitle = req.body.jobTitle;
     console.log(req.body);
-    if (!jobTitle.length && !technicalSkills.length) {
+    if (!jobTitle.length) {
         response.redirect('/');
     } else {
         db.filter(jobTitle).then((res) => {
@@ -139,8 +155,19 @@ app.get("/posts/:id", (req, response, next) => {
     console.log(cvId);
     db.getCV(cvId).then((res) => {
         console.log(res);
-        console.log(res.cvFile);
-        res.download;
+        console.log(res.data.cvFile);
+
+        var file = res.data.cvFile;
+        if (typeof file === 'string' || file instanceof String) {
+
+            fs.writeFileSync("public/cv.pdf", file, 'binary', (err) => {
+                // throws an error, you could also catch it here
+                if (err) throw err;
+
+                // success case, the file was saved
+                console.log('PDF saved!');
+            });
+        } else console.log("Invalid file");
 
         if (res.status == 400) {
             console.log(res.data);
@@ -207,9 +234,9 @@ app.post('/auth', function(request, response) {
             var msg = res.data;
             response.render('login', { title: "Login", msg: msg });
         } else if (res.status == 200) {
-
+            console.log(res.data);
             session = request.session;
-            session.userid = email;
+            session.userid = res.data.userId;
             console.log(request.session);
             console.log("email is: " + email + " and password is: " + password);
             app.locals.userid = session.userid;
@@ -223,7 +250,7 @@ app.post('/auth', function(request, response) {
 });
 
 function data() {
-    console.log("begin");
+
     var filename = path.join(__dirname, 'assets/Job_title.csv');
     var text = fs.readFileSync(filename, 'utf8', (err, data) => {
         if (err) {
@@ -290,7 +317,7 @@ app.post('/register', function(request, response) {
             response.render('register', { title: "Register", msg: msg });
         } else if (res.status == 200) {
             session = request.session;
-            session.userid = email;
+            session.userid = res.data.userId;
             console.log(request.session);
             console.log("email is: " + email + " and password is: " + password);
             app.locals.userid = session.userid;
@@ -302,30 +329,35 @@ app.post('/register', function(request, response) {
 
     });
 });
-app.post('/upload', function(request, response) {
-    //const formData = new FormData();
-    // let myForm = request.body;
-
-    // let formData = new FormData(myForm);
-    console.log(request);
-    console.log(request.body);
-
-    console.log(request.fields);
-    console.log(request.files);
-    // var userId = request.body.userId;
-    // var jobTitle = request.body.jobTitle;
-    // var jobOffers = request.body.jobOffers;
-    // var cvFile = request.body.cvFile;
-
-    // formData.append('userId', userId);
-    // formData.append('jobTitle', jobTitle);
-    // formData.append('jobOffers', jobOffers);
-    // formData.append('cvFile', fs.createReadStream('cvFile'));
 
 
-    console.log(formData);
-    db.upload(formData).then((res) => {
-        console.log(res);
+app.post('/upload', upload.single('cvFile'), function(request, response) {
+
+
+    var userId = request.body.userId;
+
+    var jobTitle = request.body.jobTitle;
+    var jobOffers = request.body.jobOffers;
+    var cvFile = request.file.buffer;
+    console.log(cvFile);
+    fs.writeFileSync("public/tmp.pdf", cvFile, 'binary', (err) => {
+        // throws an error, you could also catch it here
+        if (err) throw err;
+
+        // success case, the file was saved
+        console.log('PDF saved!');
+    });
+
+    var data = new FormData();
+    data.append('userId', userId);
+    data.append('jobTitle', jobTitle);
+    data.append('jobOffers', jobOffers);
+    data.append('cvFile', fs.createReadStream(path.join(__dirname, 'public/tmp.pdf')));
+    // fs.createReadStream(cvFile)
+    console.log(data);
+    db.upload(data).then((res) => {
+
+
         if (res.status == 400) {
             console.log(res.data);
             var msg = res.data;
@@ -334,37 +366,12 @@ app.post('/upload', function(request, response) {
             console.log(res);
             response.redirect('/');
         } else {
-            var msg = "Unknown Error"
+            var msg = res.data;
             response.render('upload', { title: "Upload", msg: msg });
         }
 
+
     });
-    //     console.log(res);
-    //     if (res["result"] == true) {
-    //         session = request.session;
-    //         session.userid = email;
-    //         console.log(request.session);
-    //         console.log("email is: " + email + " and password is: " + password);
-    //         app.locals.userid = session.userid;
-    //         response.redirect('/');
-
-    //     } else if (res["result"] == false) {
-    //         var msg = res["msg"];
-    //         console.log(msg);
-    //         response.render('register', { title: "Register", msg: msg });
-    //     }
-    // });
-    // if (email == myemail && password == mypassword) {
-    //     session = request.session;
-    //     session.userid = email;
-    //     console.log(request.session);
-    //     console.log("email is: " + email + " and password is: " + password);
-    //     app.locals.userid = session.userid;
-    //     response.redirect('/');
-    // } else {
-    //     response.render('error', { title: "Error", message: "Invalid credentials" });
-    // }
-
 
 });
 
