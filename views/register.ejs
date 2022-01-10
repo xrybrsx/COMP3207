@@ -24,7 +24,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <% } %>
+                        <% } %>
 
                     </div>
                     <div class="field is-horizontal">
@@ -37,10 +37,28 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="emailTextInput" name="email" placeholder="example@example.com" type="email">
+                                    <input class="input" id="emailTextInput" name="email"
+                                           placeholder="example@example.com" type="email">
                                 </p>
                             </div>
                         </div>
+                    </div>
+                    <div class="field">
+                        Your password must contain:
+                        <ul>
+                            <li>
+                                At least 1 number
+                            </li>
+                            <li>
+                                At least 1 capital letter
+                            </li>
+                            <li>
+                                At least 1 symbol
+                            </li>
+                            <li>
+                                At least 8 characters
+                            </li>
+                        </ul>
                     </div>
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -49,7 +67,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="passwordTextInput" name="password" placeholder="********" type="password">
+                                    <input class="input" id="passwordTextInput" name="password" placeholder="********"
+                                           type="password" minlength="8">
                                 </p>
                             </div>
                         </div>
@@ -64,7 +83,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="fisrtNameTextInput" name="firstName" placeholder="John" type="name">
+                                    <input class="input" id="firstNameTextInput" name="firstName" placeholder="John"
+                                           type="text">
                                 </p>
                             </div>
                         </div>
@@ -79,7 +99,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="lastNameTextInput" name="lastName" placeholder="Doe" type="name">
+                                    <input class="input" id="lastNameTextInput" name="lastName" placeholder="Doe"
+                                           type="text">
                                 </p>
                             </div>
                         </div>
@@ -94,7 +115,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="dateOfBirthTextInput" name="dateOfBirth" placeholder="01/01/01" type="date">
+                                    <input class="input" id="dateOfBirthTextInput" name="dateOfBirth"
+                                           placeholder="01/01/01" type="date">
                                 </p>
                             </div>
                         </div>
@@ -108,21 +130,21 @@
                             <div class="field">
                                 <div class="control">
                                     <label class="radio">
-                              <input type="radio" name="gender" value="Female">
-                              Female
-                            </label>
+                                        <input type="radio" name="gender" value="Female">
+                                        Female
+                                    </label>
                                     <label class="radio">
-                              <input type="radio" name="gender" value="Male">
-                              Male
-                            </label>
+                                        <input type="radio" name="gender" value="Male">
+                                        Male
+                                    </label>
                                     <label class="radio">
-                                <input type="radio" name="gender" value="Other">
-                                Other
-                            </label>
+                                        <input type="radio" name="gender" value="Other">
+                                        Other
+                                    </label>
                                     <label class="radio">
-                                <input type="radio" name="gender" value="Prefer not to say">
-                                Prefer not to say
-                            </label>
+                                        <input type="radio" name="gender" value="Prefer not to say">
+                                        Prefer not to say
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +159,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="educationTextInput" name="education" placeholder="Univesity of London" type="name">
+                                    <input class="input" id="educationTextInput" name="education"
+                                           placeholder="Univesity of London" type="text">
                                 </p>
                             </div>
                         </div>
@@ -152,7 +175,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="addressTextInput" name="address" placeholder="London, UK" type="name">
+                                    <input class="input" id="addressTextInput" name="address" placeholder="London, UK"
+                                           type="text">
                                 </p>
                             </div>
                         </div>
@@ -161,9 +185,9 @@
                         <button class="button is-success">
                             Register
                         </button>
-
+                    </div>
                 </form>
-                </div>
             </div>
         </div>
+    </div>
 </section>

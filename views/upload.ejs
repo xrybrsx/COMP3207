@@ -25,8 +25,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <% } %>
-
+                        <% } %>
 
                     </div>
                     <div class="field is-horizontal" style="display: none;">
@@ -39,7 +38,8 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="text" value="<%= locals.userid %>">
+                                    <input class="input" id="userIdTextInput" name="userId" placeholder="2" type="text"
+                                           value="<%= locals.userid %>">
                                 </p>
                             </div>
                         </div>
@@ -52,7 +52,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="jobTitleInput" name="jobTitle" placeholder="Software Engineer" type="name">
+                                    <input class="input" id="jobTitleInput" name="jobTitle"
+                                           placeholder="Software Engineer" type="text">
                                 </p>
                             </div>
                         </div>
@@ -84,20 +85,25 @@
 
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="jobOffersTextInput" name="jobOffers" placeholder="Google" type="name">
+                                    <input class="input" id="jobOffersTextInput" name="jobOffers" placeholder="Google"
+                                           type="text">
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label" for="uploadInput">Upload CV</label>
+                    <div class="field is-horizontal columns">
+                        <div class="column is-3">
+                            <div class="field-label is-normal">
+                                <label class="label" for="uploadInput">Upload CV</label>
+                            </div>
                         </div>
-                        <div class="file has-name is-fullwidth">
-                            <label class="file-label">
-                          <input class="file-input" id="uploadInput" type="file" name="cvFile">
-                          <span class="file-cta">
+                        <div class="column columns">
+                            <div class="column is-10">
+                                <div class="file has-name is-fullwidth">
+                                    <label class="file-label">
+                                        <input class="file-input" id="uploadInput" type="file" name="cvFile">
+                                        <span class="file-cta">
                             <span class="file-icon">
                               <i class="fas fa-upload"></i>
                             </span>
@@ -105,20 +111,21 @@
                               Choose a file…
                             </span>
                           </span>
-                          <span class="file-name">
+                                        <span class="file-name">
                             CV.pdf
                           </span>
-                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <button class="button is-success">
+                                    Upload
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="field">
-                            <button class="button is-success">
-                            Upload
-                        </button>
-
-
+                    </div>
                 </form>
-                </div>
-                </div>
             </div>
+        </div>
+    </div>
 </section>
