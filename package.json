@@ -24,7 +24,6 @@
         "ejs": "^3.1.6",
         "express": "^4.17.2",
         "express-ejs-layouts": "^2.5.1",
-        "express-fileupload": "^1.2.1",
         "express-form-data": "^2.0.17",
         "express-session": "^1.17.2",
         "form-data": "^4.0.0",
@@ -36,8 +35,5 @@
     "bugs": {
         "url": "https://github.com/xrybrsx/COMP3207/issues"
     },
-    "homepage": "https://github.com/xrybrsx/COMP3207#readme",
-    "devDependencies": {
-        "axios-logger": "^2.6.0"
-    }
+    "homepage": "https://github.com/xrybrsx/COMP3207#readme"
 }
