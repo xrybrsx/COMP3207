@@ -114,7 +114,7 @@ var api = {
     get_k_CVs: function(k) {
         console.log(k);
         return axios.post('https://cvlibrary.azurewebsites.net/api/cv/topcvs', {
-            n: n
+            k: k
 
 
         }).then((out) => {
