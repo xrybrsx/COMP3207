@@ -5,8 +5,7 @@ const { response } = require('express');
 
 
 const KEY = 'K70CRUZ6mFJIdnQqYrkM5dDJ6xO8nFfvxMqo9sycOKZ7/RievbsFyg==';
-const api_login = 'https://cvlibrary.azurewebsites.net/api/user/login';
-const api_register = 'https://cvlibrary.azurewebsites.net/api/user/register'
+
 
 var api = {
     login: function(email, password) {
@@ -98,6 +97,21 @@ var api = {
                 console.log(error);
                 return response;
             });
+
+    },
+    get_k_CVs: function(k) {
+        console.log(k);
+        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/SearchFirstKCvs', {
+            k: k
+        }).then((out) => {
+            console.log(out);
+            return out;
+        }).catch(function(error) {
+            if (error.response) {
+                console.log(error);
+                return error.response;
+            }
+        });
 
     }
 }

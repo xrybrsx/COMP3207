@@ -206,9 +206,19 @@ app.get('/', (req, res) => {
     if (req.body.list) {
         var list = req.body.list;
     } else {
-        var list = previews;
+        db.get_k_CVs(20).then((res) => {
+            console.log(res);
+            if (res.status == 200) {
+                var list = res.data;
+                response.render('home', { title: "Home", list: list });
+            } else {
+                console.log(res.data);
+                var msg = res.data;
+                response.redirect('error', { title: "Error", msg: msg });
+            }
+
+        });
     }
-    res.render('home', { title: "Home", list: list });
 });
 
 app.get('/login', (req, res) => {
