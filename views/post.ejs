@@ -17,9 +17,12 @@
                 <%= cv.jobTitle %>
             </h1>
 
-            <!-- <iframe src="<% cv.cvFile %>">
-        </iframe> -->
-            <embed src="/static/cv.pdf" width="60%" height="600" type="application/pdf">
+            <object width="60%" height="600" data="data:application/pdf;base64,<%= cvData %>" type="application/pdf"
+                    class="internal">
+                <embed src="data:application/pdf;base64,<%= cvData %>" type="application/pdf"/>
+            </object>
+
+            <!--            <embed src="/static/cv.pdf" width="60%" height="600" type="application/pdf">-->
         </div>
     </div>
 </section>
