@@ -12,10 +12,8 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-8-tablet is-8-desktop is-6-widescreen">
-
                 <form action="auth" class="box" method="post">
                     <div class="field is-horizontal">
-
                         <% if (locals.msg ) { %>
                             <div class="notification is-danger is-light">
                                 <div>
@@ -23,21 +21,18 @@
                                         <%= msg %>
                                     </p>
                                 </div>
-
                             </div>
-                            <% } %>
+                        <% } %>
                     </div>
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label" for="emailTextInput">Email</label>
                         </div>
-
-
                         <div class="field-body">
-
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="emailTextInput" name="email" placeholder="example@example.com" type="email">
+                                    <input class="input" id="emailTextInput" name="email"
+                                           placeholder="example@example.com" type="email">
                                 </p>
                             </div>
                         </div>
@@ -49,7 +44,8 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control">
-                                    <input class="input" id="passwordTextInput" name="password" placeholder="********" type="password">
+                                    <input class="input" id="passwordTextInput" name="password" placeholder="********"
+                                           type="password">
                                 </p>
                             </div>
                         </div>
@@ -58,10 +54,13 @@
                         <button class="button is-success">
                             Login
                         </button>
+                    </div>
+                    <div class="field">
                         <a href="/register">
-                           Don't have account?
+                            Don't have account?
                         </a>
                     </div>
+                </form>
             </div>
         </div>
 </section>
