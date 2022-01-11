@@ -20,13 +20,13 @@
                 <div class="field-body">
                     <div class="field">
                         <p class="control">
-                            <input class="input" id="jobTextInput" name="jobTitle" placeholder="Software Engineer" type="text" list="jobList">
+                            <input class="input" id="jobTextInput" name="jobTitle" placeholder="Software Engineer"
+                                   type="text" list="jobList">
                             <datalist id="jobList">
 
-                               
-                                <% for (job of jobList) {   %>
+                                <% for (job of jobList) { %>
                                     <option> <%= job %> </option>
-                                    <% } %>
+                                <% } %>
                             </datalist>
                         </p>
                     </div>
@@ -61,33 +61,51 @@
     <div class="container">
         <table class="table is-striped is-hoverable">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Job Position</th>
-                    <th>Job Offers</th>
-                    <!-- <th>Status</th> -->
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>Job Position</th>
+                <th>Job Offers</th>
+                <!-- <th>Status</th> -->
+            </tr>
             </thead>
             <tbody>
-                <% for (cv of list) { %>
-                    <!-- Stupid way of doing a clickable table row lol
-                    - I wouldn't have come up with anything different lol -->
-                    <tr onclick="window.location='/posts/<%= cv.cvId %>';" style="cursor: pointer;">
-                        <td>
-                            <%= cv.cvId %>
-                        </td>
-                        <td>
-                            <%= cv.jobTitle %>
-                        </td>
-                        <!-- <td>
+            <% for (cv of list) { %>
+                <!-- Stupid way of doing a clickable table row lol
+                - I wouldn't have come up with anything different lol -->
+                <tr onclick="window.location='/posts/<%= cv.cvId %>';" style="cursor: pointer;">
+                    <td>
+                        <%= cv.cvId %>
+                    </td>
+                    <td>
+                        <%= cv.jobTitle %>
+                    </td>
+                    <!-- <td>
                             <%= cv.technicalSkills %>
                         </td> -->
-                        <td>
-                            <%= cv.jobOffers %>
-                        </td>
-                    </tr>
-                    <% } %>
+                    <td>
+                        <%= cv.jobOffers %>
+                    </td>
+                </tr>
+            <% } %>
             </tbody>
         </table>
+        <nav class="pagination level" role="navigation" aria-label="pagination">
+
+            <div class="level-item">
+                <% if (page > 0) { %>
+                    <a class="pagination-previous" href="?page=<%= page - 1 %>">
+                        Previous Page
+                    </a>
+                <% } %>
+            </div>
+
+            <div class="level-item">
+                <% if (list.length === 20) { %>
+                    <a class="pagination-next" href="?page=<%= page + 1 %>">
+                        Next Page
+                    </a>
+                <% } %>
+            </div>
+        </nav>
     </div>
 </section>

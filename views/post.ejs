@@ -17,6 +17,18 @@
                     <%= cv.jobTitle %>
                 </h1>
 
+                <p> Received offers from:</p>
+
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="card">
+                            <div class="card-content">
+                                <%= cv.jobOffers %>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
                 <button class="button js-modal-trigger" data-target="cv-view-modal">
                     View CV
                 </button>

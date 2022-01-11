@@ -1,12 +1,12 @@
 const axios = require('axios');
-const { response } = require('express');
+const {response} = require('express');
 
 
 const KEY = 'K70CRUZ6mFJIdnQqYrkM5dDJ6xO8nFfvxMqo9sycOKZ7/RievbsFyg==';
 
 
 var api = {
-    login: function(email, password) {
+    login: function (email, password) {
 
         console.log("Handling login of " + email + " password is " + password);
         //return 
@@ -15,14 +15,14 @@ var api = {
             password: password
         }).then((out) => {
             return out;
-        }).catch(function(error) {
+        }).catch(function (error) {
             if (error.response) {
                 return error.response;
             }
         });
     },
 
-    register: function(email, password, firstName, lastName, dateOfBirth, education, address, gender) {
+    register: function (email, password, firstName, lastName, dateOfBirth, education, address, gender) {
 
 
         console.log(email, password, firstName, lastName, dateOfBirth, education, address, gender);
@@ -38,21 +38,21 @@ var api = {
         }).then((out) => {
             console.log(out);
             return out;
-        }).catch(function(error) {
+        }).catch(function (error) {
             if (error.response) {
                 return error.response;
             }
         });
 
     },
-    filter: function(jobTitle) {
+    filter: function (jobTitle) {
         console.log(jobTitle);
         return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchByJobTitle', {
             jobTitle: jobTitle
         }).then((out) => {
             console.log(out);
             return out;
-        }).catch(function(error) {
+        }).catch(function (error) {
             if (error.response) {
                 console.log(error);
                 return error.response;
@@ -60,14 +60,14 @@ var api = {
         });
 
     },
-    getCV: function(cvId) {
+    getCV: function (cvId) {
         console.log(cvId);
         return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchById', {
             cvId: cvId
         }).then((out) => {
             console.log(out);
             return out;
-        }).catch(function(error) {
+        }).catch(function (error) {
             if (error.response) {
                 console.log(error);
                 return error.response;
@@ -76,7 +76,7 @@ var api = {
 
     },
 
-    getCvByUserId: function(userid) {
+    getCvByUserId: function (userid) {
         console.log(userid);
         return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchbyuserid', {
             userid: userid
@@ -89,7 +89,7 @@ var api = {
         });
     },
 
-    upload: function(data) {
+    upload: function (data) {
         var config = {
             method: 'post',
             url: 'http://cvlibrary.azurewebsites.net/api/cv/upload',
@@ -100,33 +100,32 @@ var api = {
         };
 
         return axios(config)
-            .then(function(response) {
+            .then(function (response) {
                 console.log(response);
                 return (response);
 
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.log(error);
                 return response;
             });
 
     },
-    get_k_CVs: function(k) {
+    get_k_CVs: function (k, n) {
         console.log(k);
+        console.log(n);
         return axios.post('https://cvlibrary.azurewebsites.net/api/cv/topcvs', {
-            k: k
-
-
+            k: k + 1,
+            n: n,
         }).then((out) => {
             console.log(out);
             return out;
-        }).catch(function(error) {
+        }).catch(function (error) {
             if (error.response) {
                 console.log(error);
                 return error.response;
             }
         });
-
     }
 }
 

@@ -152,7 +152,6 @@ app.get("/posts/:id", (req, response, next) => {
     db.getCV(cvId).then((res) => {
         let msg;
         console.log(res);
-        console.log(res.data.cvFile);
 
         if (res.status === 400) {
             console.log(res.data);
@@ -189,24 +188,19 @@ app.get('/', (req, response) => {
         logged = true;
     }
 
+    const page = req.query.page ?? 0;
 
-    if (req.body.list) {
-        var list = req.body.list;
-    } else {
-
-        db.get_k_CVs(20).then((res) => {
-            console.log(res);
-            if (res.status === 200) {
-                var list = res.data;
-                response.render('home', {title: "Home", list: list});
-            } else {
-                console.log(res);
-                console.log(res.data);
-                var msg = res.statusText;
-                response.render('error', {title: "Error", msg: msg});
-            }
-        });
-    }
+    db.get_k_CVs(page * 20, (page + 1) * 20).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+            const list = res.data;
+            response.render('home', {title: "Home", list: list, page: page});
+        } else {
+            console.error(res.data);
+            const msg = res.statusText;
+            response.render('error', {title: "Error", msg: msg});
+        }
+    });
 });
 
 app.get('/login', (req, res) => {
