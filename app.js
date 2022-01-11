@@ -193,7 +193,7 @@ app.get('/', (req, response) => {
     if (req.body.list) {
         var list = req.body.list;
     } else {
-        console.log("get 20 cvs")
+
         db.get_k_CVs(20).then((res) => {
             console.log(res);
             if (res.status === 200) {
