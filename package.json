@@ -15,7 +15,7 @@
         "type": "git",
         "url": "git+https://github.com/xrybrsx/COMP3207.git"
     },
-    "author": "rb1u19 mg5u19",
+    "author": "",
     "license": "ISC",
     "dependencies": {
         "axios": "^0.24.0",
