@@ -329,7 +329,10 @@ app.post('/upload', upload.single('cvFile'), function (request, response) {
 
     var jobTitle = request.body.jobTitle;
     var jobOffers = request.body.jobOffers;
-    var cvFile = request.file.buffer;
+    if (request.file.buffer){
+        var cvFile = request.file.buffer
+    } else response.render('upload', { title: "Upload", msg: msg });
+    
     console.log(cvFile);
     fs.writeFileSync("public/tmp.pdf", cvFile, 'binary', (err) => {
         // throws an error, you could also catch it here
