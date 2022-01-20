@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "gdeploy": "gcloud app deploy -v test",
+    "gdeploy": "gcloud app deploy -v main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
