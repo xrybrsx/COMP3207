@@ -1,10 +1,8 @@
-Group Coursework
+University Group Coursework
 "Cloud Technologies Prototype"
 
-How to run locally:
+CV Library: https://cv-lib.nw.r.appspot.com
 
-1. git clone https://github.com/xrybrsx/COMP3207.git
-2. cd COMP3207
-3. npm start
-4. go to http://localhost:8080
-   :)
+About 
+Web-application fr helping people write their resumes for job application. The applications lets users look through other people's resumes to give them examples of successful and unsuccesfull ones and provide them insight about how to build their own resume. Users can also filter the list of resumes and upload their own resume.  
+
