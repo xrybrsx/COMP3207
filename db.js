@@ -2,7 +2,7 @@ const axios = require('axios');
 const {response} = require('express');
 
 
-const KEY = 'K70CRUZ6mFJIdnQqYrkM5dDJ6xO8nFfvxMqo9sycOKZ7/RievbsFyg==';
+const KEY = 'TL/k8ifvny8BIV0gI0eLZajEUA0NwTt7hvewaDUuzm76meE0A0mv7w==';
 
 
 var api = {
@@ -10,7 +10,7 @@ var api = {
 
         console.log("Handling login of " + email + " password is " + password);
         //return 
-        return axios.post('https://cvlibrary.azurewebsites.net/api/user/login', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/user/login', {
             email: email,
             password: password
         }).then((out) => {
@@ -26,7 +26,7 @@ var api = {
 
 
         console.log(email, password, firstName, lastName, dateOfBirth, education, address, gender);
-        return axios.post('https://cvlibrary.azurewebsites.net/api/user/register', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/user/register', {
             email: email,
             password: password,
             firstName: firstName,
@@ -47,7 +47,7 @@ var api = {
     },
     filter: function (jobTitle) {
         console.log(jobTitle);
-        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchByJobTitle', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/cv/searchByJobTitle', {
             jobTitle: jobTitle
         }).then((out) => {
             console.log(out);
@@ -62,7 +62,7 @@ var api = {
     },
     getCV: function (cvId) {
         console.log(cvId);
-        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchById', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/cv/searchById', {
             cvId: cvId
         }).then((out) => {
             console.log(out);
@@ -78,7 +78,7 @@ var api = {
 
     getCvByUserId: function (userid) {
         console.log(userid);
-        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/searchbyuserid', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/cv/searchbyuserid', {
             userid: userid
         }).then((out) => {
             console.log("db out: " + out);
@@ -92,7 +92,7 @@ var api = {
     upload: function (data) {
         var config = {
             method: 'post',
-            url: 'http://cvlibrary.azurewebsites.net/api/cv/upload',
+            url: 'http://cv-lib-functions.azurewebsites.net/api/cv/upload',
             headers: {
                 ...data.getHeaders()
             },
@@ -114,7 +114,7 @@ var api = {
     get_k_CVs: function (k, n) {
         console.log(k);
         console.log(n);
-        return axios.post('https://cvlibrary.azurewebsites.net/api/cv/topcvs', {
+        return axios.post('https://cv-lib-functions.azurewebsites.net/api/cv/topcvs', {
             k: k + 1,
             n: n,
         }).then((out) => {

@@ -236,6 +236,7 @@ app.post('/auth', function (request, response) {
             response.redirect('/');
         } else {
             var msg = "Unknown Error"
+            console.log(res.data);
             response.render('login', { title: "Login", msg: msg });
         }
 
