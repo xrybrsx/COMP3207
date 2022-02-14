@@ -56,6 +56,8 @@ app.set('layout', './layouts/wrapper');
 //set up express-session for cookies 
 var session = require('express-session');
 const cookieParser = require("cookie-parser");
+const { ReadStream } = require('tty');
+const { diskStorage } = require('multer');
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
     secret: "secret",
@@ -150,23 +152,23 @@ app.get("/posts/:id", (req, response, next) => {
     var cvId = req.params.id;
     console.log(cvId);
     db.getCV(cvId).then((res) => {
-        let msg;
+        var msg;
         console.log(res);
 
         if (res.status === 400) {
+            
+            res.data ? msg = res.data : msg = "Unknown error";
             console.log(res.data);
-            msg = res.data;
-            console.log(res.data);
-            response.render('error', { title: "Error", message: msg });
+            
+            response.render('error', { title: "Error", msg: msg });
         } else if (res.status === 200) {
             const cv = res.data;
-
             const data = Buffer.from(res.data.cvFile, 'binary').toString('base64');
 
             response.render('post', { title: "Post", cv: cv, cvData: data });
         } else {
-            msg = res.data;
-            response.render('error', { title: "Error", message: msg });
+            res.data ? msg = res.data : msg = "Unknown error";
+            response.render('error', { title: "Error", msg: msg });
         }
 
     });
@@ -326,18 +328,30 @@ app.post('/register', function (request, response) {
 app.post('/upload', upload.single('cvFile'), function (request, response) {
 
 
-    var userId = request.body.userId;
+    var userId = 3;
+    //request.body.userId;
 
-    var jobTitle = request.body.jobTitle;
-    var jobOffers = request.body.jobOffers;
-    if (request.file.buffer){
-        var cvFile = request.file.buffer
-    } else response.render('upload', { title: "Upload", msg: msg });
+    var jobTitle = "job title"
+    //request.body.jobTitle;
+    var jobOffers = "offers"; 
+    var cvFile;
+    console.log(request);
+    //request.body.jobOffers;
+    if (request.file){
     
-    console.log(cvFile);
+        //console.log(request);
+        //console.log(request.file);
+        cvFile = request.file.buffer.toString();
+        //cvFile = request.file.stream;
+        //cvFile = fs.createReadStream(request.file.fieldname);
+        //cvFile = new Buffer.from(request.file.buffer).toString('base64');
+        console.log(cvFile);
+    } else response.render('upload', { title: "Upload", msg: "No file detected" });
+    
+    //console.log(cvFile);
     fs.writeFileSync("public/tmp.pdf", cvFile, 'binary', (err) => {
         // throws an error, you could also catch it here
-        if (err) throw err;
+        if (er) throw err;
 
         // success case, the file was saved
         console.log('PDF saved!');
@@ -347,21 +361,26 @@ app.post('/upload', upload.single('cvFile'), function (request, response) {
     data.append('userId', userId);
     data.append('jobTitle', jobTitle);
     data.append('jobOffers', jobOffers);
-    data.append('cvFile', fs.createReadStream(path.join(__dirname, 'public/tmp.pdf')));
+    data.append('cvFile', fs.readFileSync("public/tmp.pdf"), {filename: "CV.pdf"});
+
+    
+
+    //data.append('cvFile', cvFile);
     // fs.createReadStream(cvFile)
     console.log(data);
     db.upload(data).then((res) => {
-
-
+        // console.log(res)
+        // console.log(res.response)
+        // console.log(res.response.statusText)
         if (res.status == 400) {
-            console.log(res.data);
-            var msg = res.data;
+            
+            var msg = res.response;
             response.render('upload', { title: "Upload", msg: msg });
         } else if (res.status == 200) {
             console.log(res);
             response.redirect('/');
         } else {
-            var msg = res.data;
+            var msg = res.response.statusText;
             response.render('upload', { title: "Upload", msg: msg });
         }
 
@@ -380,7 +399,7 @@ app.get('/user', (req, response) => {
         db.getCvByUserId(userid).then((res) => {
             console.log("app res: " + res);
             if (res.status == 400) {
-                var msg = res.data;
+                res.data ? msg = res.data : msg = "Unknown error";
                 if (msg == "User {id} has uploaded no CVs") {
                     response.render('user', { title: "Profile", list: [] });
                 } else {
@@ -391,7 +410,7 @@ app.get('/user', (req, response) => {
                 var list = res.data;
                 response.render('user', { title: "Profile", list: list });
             } else {
-                var msg = res.data;
+                res.data ? msg = res.data : msg = "Unknown error";
                 response.render('Error', { title: "Error", msg: msg });
             }
 

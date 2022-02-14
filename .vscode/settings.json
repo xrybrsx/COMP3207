@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/102ef8e8-9fe5-41e6-8ddf-7ad4ecce7b19/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/cv-lib",
+    "appService.deploySubpath": "."
+}
