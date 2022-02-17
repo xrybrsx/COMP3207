@@ -328,12 +328,12 @@ app.post('/register', function (request, response) {
 app.post('/upload', upload.single('cvFile'), function (request, response) {
 
 
-    var userId = 3;
+    var userId = 1;
     //request.body.userId;
 
-    var jobTitle = "job title"
+    var jobTitle = "Tester"
     //request.body.jobTitle;
-    var jobOffers = "offers"; 
+    var jobOffers = "Google"; 
     var cvFile;
     console.log(request);
     //request.body.jobOffers;
@@ -341,7 +341,7 @@ app.post('/upload', upload.single('cvFile'), function (request, response) {
     
         //console.log(request);
         //console.log(request.file);
-        cvFile = request.file.buffer.toString();
+        cvFile = request.file.buffer;
         //cvFile = request.file.stream;
         //cvFile = fs.createReadStream(request.file.fieldname);
         //cvFile = new Buffer.from(request.file.buffer).toString('base64');
@@ -361,7 +361,7 @@ app.post('/upload', upload.single('cvFile'), function (request, response) {
     data.append('userId', userId);
     data.append('jobTitle', jobTitle);
     data.append('jobOffers', jobOffers);
-    data.append('cvFile', fs.readFileSync("public/tmp.pdf"), {filename: "CV.pdf"});
+    data.append('cvFile', cvFile, {filename: "CV.pdf"});
 
     
 
