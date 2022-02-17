@@ -328,12 +328,12 @@ app.post('/register', function (request, response) {
 app.post('/upload', upload.single('cvFile'), function (request, response) {
 
 
-    var userId = 1;
+    var userId = request.body.userId;
     //request.body.userId;
 
-    var jobTitle = "Tester"
+    var jobTitle = request.body.jobTitle;
     //request.body.jobTitle;
-    var jobOffers = "Google"; 
+    var jobOffers = request.body.jobOffers;
     var cvFile;
     console.log(request);
     //request.body.jobOffers;
